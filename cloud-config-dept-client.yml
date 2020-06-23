@@ -5,14 +5,21 @@ spring:
 --- 
 server:
   port: 8001
-spring: 
+  
+mybatis-plus:
+  config-location: classpath:mybatisplus/mybatis.cfg.xml        # mybatis配置文件所在路径(内部只是开启了二级缓存)
+  type-aliases-package: com.hc.lyx.pojo    # 所有pojo别名类所在包
+  mapper-locations:
+  - classpath:mybatisplus/mapper/**/*.xml                       # mapper映射文件
+    
+spring:
    profiles: dev
-   application: 
-    name: config-dept-client
+   application:
+    name: cloud-config-bills-client
    datasource:
     type: com.alibaba.druid.pool.DruidDataSource            # 当前数据源操作类型
-    driver-class-name: com.mysql.cj.jdbc.Driver              # mysql驱动包
-    url: jdbc:mysql://localhost:3306/cloudDB01?serverTimezone=UTC              # 数据库名称
+    driver-class-name: com.mysql.cj.jdbc.Driver             # mysql驱动包
+    url: jdbc:mysql://localhost:3306/bills?serverTimezone=UTC&useUnicode=true&characterEncoding=UTF-8     # 数据库名称
     username: root
     password: root
     dbcp2:
@@ -21,36 +28,44 @@ spring:
       max-total: 5                                          # 最大连接数
       max-wait-millis: 200                                  # 等待连接获取的最大超时时间
       
-mybatis:
-  config-location: classpath:mybatis/mybatis.cfg.xml        # mybatis配置文件所在路径
-  type-aliases-package: com.hc.entity   # 所有Entity别名类所在包
-  mapper-locations:
-  - classpath:mybatis/mapper/**/*.xml                       # mapper映射文件
- 
-eureka: 
+      
+      
+eureka:
   client: #客户端注册进eureka服务列表内
     service-url: 
-      defaultZone: http://eureka7001.com:7001/eureka
+      defaultZone: http://eureka7001.com:7001/eureka/,http://eureka7002.com:7002/eureka/,http://eureka7003.com:7003/eureka/
   instance:
-    instance-id: dept-8001.com
-    prefer-ip-address: true
- 
+    instance-id: cloud-Bills-8001   #注册进入注册中心的名字  
+    prefer-ip-address: true     #访问路径可以显示IP地址
+    lease-renewal-interval-in-seconds: 5
+    
+ #显示注册进eureka之后显示自己的提示信息       
 info:
-  app.name: hc-microservicecloud-springcloudconfig01
-  company.name: www.hc.com
+  app.name: cloud-bills
+  company.name: www.haochenit.com
   build.artifactId: $project.artifactId$
   build.version: $project.version$
+
+  
+   
 ---
 server:
   port: 8001
-spring: 
+  
+mybatis-plus:
+  config-location: classpath:mybatisplus/mybatis.cfg.xml        # mybatis配置文件所在路径(内部只是开启了二级缓存)
+  type-aliases-package: com.hc.lyx.pojo    # 所有pojo别名类所在包
+  mapper-locations:
+  - classpath:mybatisplus/mapper/**/*.xml                       # mapper映射文件
+    
+spring:
    profiles: test
-   application: 
-    name: cloud-config-dept-client
+   application:
+    name: cloud-config-bills-client
    datasource:
     type: com.alibaba.druid.pool.DruidDataSource            # 当前数据源操作类型
-    driver-class-name: com.mysql.cj.jdbc.Driver              # mysql驱动包
-    url: jdbc:mysql://localhost:3306/cloudDB02?serverTimezone=UTC              # 数据库名称
+    driver-class-name: com.mysql.cj.jdbc.Driver             # mysql驱动包
+    url: jdbc:mysql://localhost:3306/bills2?serverTimezone=UTC&useUnicode=true&characterEncoding=UTF-8     # 数据库名称
     username: root
     password: root
     dbcp2:
@@ -58,25 +73,21 @@ spring:
       initial-size: 5                                       # 初始化连接数
       max-total: 5                                          # 最大连接数
       max-wait-millis: 200                                  # 等待连接获取的最大超时时间
-  
-  
-mybatis:
-  config-location: classpath:mybatis/mybatis.cfg.xml        # mybatis配置文件所在路径
-  type-aliases-package: com.hc.entity   # 所有Entity别名类所在包
-  mapper-locations:
-  - classpath:mybatis/mapper/**/*.xml                       # mapper映射文件
- 
-eureka: 
+      
+      
+      
+eureka:
   client: #客户端注册进eureka服务列表内
     service-url: 
-      defaultZone: http://eureka7001.com:7001/eureka
+      defaultZone: http://eureka7001.com:7001/eureka/,http://eureka7002.com:7002/eureka/,http://eureka7003.com:7003/eureka/
   instance:
-    instance-id: dept-8001.com
-    prefer-ip-address: true
- 
+    instance-id: cloud-Bills-8001   #注册进入注册中心的名字  
+    prefer-ip-address: true     #访问路径可以显示IP地址
+    lease-renewal-interval-in-seconds: 5
+    
+ #显示注册进eureka之后显示自己的提示信息       
 info:
-  app.name: hc-microservicecloud-springcloudconfig02
+  app.name: cloud-bills
   company.name: www.haochenit.com
   build.artifactId: $project.artifactId$
   build.version: $project.version$
-
